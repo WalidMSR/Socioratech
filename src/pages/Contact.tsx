@@ -1,5 +1,20 @@
 import { useState } from 'react';
 import { Mail, MapPin, Send, CheckCircle } from 'lucide-react';
+import Select from "react-select";
+import type { SingleValue } from "react-select";
+
+type ProfessionOption = {
+  value: string;
+  label: string;
+};
+
+const professionOptions = [
+  { value: "orthophoniste", label: "Orthophoniste" },
+  { value: "psychologue", label: "Psychologue" },
+  { value: "educateur", label: "Éducateur spécialisé" },
+  { value: "autre", label: "Autre professionnel de santé" },
+  { value: "structure", label: "Représentant d'une structure" }
+];
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -149,20 +164,13 @@ export default function Contact() {
                     <label htmlFor="profession" className="block text-sm font-semibold text-gray-700 mb-2">
                       Profession
                     </label>
-                    <select
-                      id="profession"
-                      name="profession"
-                      value={formData.profession}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition"
-                    >
-                      <option value="">Sélectionnez...</option>
-                      <option value="orthophoniste">Orthophoniste</option>
-                      <option value="psychologue">Psychologue</option>
-                      <option value="educateur">Éducateur spécialisé</option>
-                      <option value="autre">Autre professionnel de santé</option>
-                      <option value="structure">Représentant d'une structure</option>
-                    </select>
+                    <Select
+                        options={professionOptions}
+                        placeholder="Sélectionnez..."
+                        onChange={(option: SingleValue<ProfessionOption>) =>
+                          setFormData({ ...formData, profession: option?.value ?? "" })
+                        }
+                      />
                   </div>
 
                   <div>
