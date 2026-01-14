@@ -27,9 +27,22 @@ export default function Contact() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    await axios.post(
+      "http://127.0.0.1:8000/api/contact/",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
     setIsSubmitted(true);
+
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
@@ -40,7 +53,13 @@ export default function Contact() {
         message: ''
       });
     }, 3000);
-  };
+
+  } catch (error) {
+    console.error(error);
+    alert("Erreur lors de l'envoi du message");
+  }
+};
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -166,12 +185,13 @@ export default function Contact() {
                       Profession
                     </label>
                     <Select
-                        options={professionOptions}
-                        placeholder="Sélectionnez..."
-                        onChange={(option: SingleValue<ProfessionOption>) =>
-                          setFormData({ ...formData, profession: option?.value ?? "" })
-                        }
-                      />
+                      options={professionOptions}
+                      placeholder="Sélectionnez..."
+                      onChange={(option: SingleValue<ProfessionOption>) =>
+                        setFormData({ ...formData, profession: option?.label ?? "" })
+                      }
+                    />
+
                   </div>
 
                   <div>
