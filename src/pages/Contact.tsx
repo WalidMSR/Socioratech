@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Mail, MapPin, Send, CheckCircle } from 'lucide-react';
 import Select from "react-select";
 import type { SingleValue } from "react-select";
+import axios from "axios";
 
 type ProfessionOption = {
   value: string;
